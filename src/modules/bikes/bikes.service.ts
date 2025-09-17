@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBikeDto } from './dto/create-bike.dto';
 import { UpdateBikeDto } from './dto/update-bike.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Bike } from './entities/bike.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BikesService {
+  constructor(
+    @InjectRepository(Bike)
+    private bikeRepository: Repository<Bike>,
+  ) {}
+
   create(createBikeDto: CreateBikeDto) {
-    return 'This action adds a new bike';
+    return this.bikeRepository.save(createBikeDto);
   }
 
   findAll() {
-    return `This action returns all bikes`;
+    return this.bikeRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bike`;
+  findOne(id: string) {
+    return this.bikeRepository.findOne({where: {id}});
   }
 
-  update(id: number, updateBikeDto: UpdateBikeDto) {
-    return `This action updates a #${id} bike`;
+  update(id: string, updateBikeDto: UpdateBikeDto) {
+    return this.bikeRepository.update(id, updateBikeDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} bike`;
+  remove(id: string) {
+    return this.bikeRepository.delete(id);
   }
 }
