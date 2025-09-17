@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
+import { BikesModule } from './modules/bikes/bikes.module';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -30,6 +31,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         };
       },
     }),
+    BikesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
